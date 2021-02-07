@@ -1,4 +1,4 @@
-Feature: Searching Google should return the name of query
+Feature: Searching Amazon should return the name of query
 @GoogleSearch
   Scenario: Amazon search with scenario
     Given user launches Amazon webapp
