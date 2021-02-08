@@ -1,5 +1,5 @@
 Feature: Searching Amazon should return the name of query
-@GoogleSearch
+@AmazonSearch
   Scenario: Amazon search with scenario
     Given user launches Amazon webapp
     When user clicks on agree
