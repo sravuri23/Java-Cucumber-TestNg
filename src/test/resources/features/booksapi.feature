@@ -11,4 +11,4 @@ Feature: Get book by ISBN
       | items.volumeInfo.title 		| Steve Jobs		  |
       | items.volumeInfo.publisher 	| Simon and Schuster  |
       | items.volumeInfo.pageCount 	| 630			      |
-  #ttps://angiejones.tech/rest-assured-with-cucumber-using-bdd-for-web-services-automation/
+  #https://angiejones.tech/rest-assured-with-cucumber-using-bdd-for-web-services-automation/
