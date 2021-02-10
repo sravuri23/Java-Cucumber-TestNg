@@ -1,3 +1,5 @@
+package stepDefinition;
+
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -9,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class GoogleSearchSteps {
+public class AmazonSearchSteps {
 
     public static WebDriver driver;
     String baseURL = "https://www.amazon.co.uk";

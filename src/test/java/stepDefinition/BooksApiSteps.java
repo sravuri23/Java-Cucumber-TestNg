@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
 
-public class booksApiSteps {
+public class BooksApiSteps {
     private Response response;
     private ValidatableResponse json;
     private RequestSpecification request;
