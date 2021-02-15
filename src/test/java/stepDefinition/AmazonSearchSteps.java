@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import dataProvider.ConfigFileReader;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,13 +15,17 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class AmazonSearchSteps {
 
     public static WebDriver driver;
+    ConfigFileReader configFileReader;
     String baseURL = "https://www.amazon.co.uk";
     @Given("user launches Amazon webapp")
     public void user_launches_Google_webapp() {
+        configFileReader= new ConfigFileReader();
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(baseURL);
+        //driver.navigate().to(configFileReader.getApplicationUrl());
+
     }
 
     @When("user clicks on agree")
@@ -29,7 +34,7 @@ public class AmazonSearchSteps {
         driver.findElement(By.cssSelector("input[id='sp-cc-accept']")).click();
     }
 
-    @And("enter button and search {string}")
+    @And("^enter button and search \"([^\"]*)\"$")
     public void enterButtonAndSearch(String itemname) {
         driver.findElement(By.cssSelector("input[id='twotabsearchtextbox']")).click();
         driver.findElement(By.cssSelector("input[id='twotabsearchtextbox']")).sendKeys(itemname);
@@ -38,7 +43,7 @@ public class AmazonSearchSteps {
     }
 
 
-    @Then("results retrieved should contain the {string} used")
+    @Then("^results retrieved should contain the \"([^\"]*)\" used$")
     public void results_retrieved_should_contain_the_used(String itemname) {
         String itemText=  driver.findElement(By.cssSelector("span.a-color-state")).getText();
         assertThat(itemText.compareToIgnoreCase(itemname));
