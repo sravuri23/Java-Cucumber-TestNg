@@ -1,15 +1,9 @@
 package stepDefinition;
 
 
-import com.cucumber.listener.Reporter;
 import cucumber.api.CucumberOptions;
-import dataProvider.FileReaderManager;
 import io.cucumber.junit.Cucumber;
-
-import org.junit.AfterClass;
 import org.junit.runner.RunWith;
-
-import java.io.File;
 
 //import io.cucumber.junit.CucumberOptions;
 
@@ -24,8 +18,8 @@ import java.io.File;
 
         monochrome=true)
 public class RunCucumberTest {
-    @AfterClass
-    public static void writeExtentReport() {
-        Reporter.loadXMLConfig(new File(FileReaderManager.getInstance().getConfigReader().getReportConfigPath()));
-    }
+//    @AfterClass
+//    public static void writeExtentReport() {
+//        Reporter.loadXMLConfig(new File(FileReaderManager.getInstance().getConfigReader().getReportConfigPath()));
+//    }
 }

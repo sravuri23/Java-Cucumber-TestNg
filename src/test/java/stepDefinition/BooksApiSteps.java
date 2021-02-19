@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import dataProviders.ConfigFileReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -16,6 +17,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 
 public class BooksApiSteps {
+    ConfigFileReader configFileReader;
     private Response response;
     private ValidatableResponse json;
     private RequestSpecification request;
@@ -29,7 +31,9 @@ public class BooksApiSteps {
 
     @When("a user retrieves the book by isbn")
     public void a_user_retrieves_the_book_by_isbn() {
-        response = request.when().get(ENDPOINT_GET_BOOK_BY_ISBN);
+        configFileReader=new ConfigFileReader();
+        configFileReader.getBoooksApiUrl();
+        response = request.when().get(configFileReader.getBoooksApiUrl());
         System.out.println("response: " + response.prettyPrint());
 
     }

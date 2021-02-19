@@ -1,6 +1,6 @@
 package stepDefinition;
 
-import dataProvider.ConfigFileReader;
+import dataProviders.ConfigFileReader;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,21 +16,19 @@ public class AmazonSearchSteps {
 
     public static WebDriver driver;
     ConfigFileReader configFileReader;
-    String baseURL = "https://www.amazon.co.uk";
+
     @Given("user launches Amazon webapp")
     public void user_launches_Google_webapp() {
         configFileReader= new ConfigFileReader();
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get(baseURL);
-        //driver.navigate().to(configFileReader.getApplicationUrl());
+        driver.navigate().to(configFileReader.getApplicationUrl());
 
     }
 
     @When("user clicks on agree")
-    public void user_searches_for_a() throws InterruptedException {
-        Thread.sleep(1000);
+    public void user_searches_for_a() {
         driver.findElement(By.cssSelector("input[id='sp-cc-accept']")).click();
     }
 

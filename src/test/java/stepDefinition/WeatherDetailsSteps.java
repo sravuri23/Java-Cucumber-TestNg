@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import dataProviders.ConfigFileReader;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,14 +15,16 @@ import org.junit.Assert;
 
 
 public class WeatherDetailsSteps {
+    ConfigFileReader configFileReader;
     private Response response;
     private RequestSpecification httpRequest;
     private ResponseBody body;
 
     @Given("I call weather details API")
     public void i_call_weather_details_api() {
+        configFileReader= new ConfigFileReader();
         // Specify the base URL to the RESTful web service
-        RestAssured.baseURI = "http://demoqa.com/utilities/weather/city/";
+        RestAssured.baseURI = configFileReader.getWeatherApiUrl();
     }
 
     @When("^I request weather by \"([^\"]*)\"$")
