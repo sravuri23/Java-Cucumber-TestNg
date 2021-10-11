@@ -8,10 +8,10 @@ import java.util.Properties;
 
 public class ConfigFileReader {
     private Properties properties;
-    private final String propertyFilePath= "configs//Configuration.properties";
+    private final String propertyFilePath = "configs//Configuration.properties";
 
 
-    public ConfigFileReader(){
+    public ConfigFileReader() {
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(propertyFilePath));
@@ -28,34 +28,12 @@ public class ConfigFileReader {
         }
     }
 
-    public String getDriverPath(){
-        String driverPath = properties.getProperty("driverPath");
-        if(driverPath!= null) return driverPath;
-        else throw new RuntimeException("driverPath not specified in the Configuration.properties file.");
-    }
-
-    public long getImplicitlyWait() {
-        String implicitlyWait = properties.getProperty("implicitlyWait");
-        if(implicitlyWait != null) return Long.parseLong(implicitlyWait);
-        else throw new RuntimeException("implicitlyWait not specified in the Configuration.properties file.");
-    }
 
     public String getApplicationUrl() {
         String url = properties.getProperty("url");
-        if(url != null) return url;
+        if (url != null) return url;
         else throw new RuntimeException("url not specified in the Configuration.properties file.");
     }
 
-    public String getWeatherApiUrl() {
-        String url = properties.getProperty("weatherBaseURI");
-        if(url != null) return url;
-        else throw new RuntimeException("url not specified in the Configuration.properties file.");
-    }
-
-    public String getBoooksApiUrl() {
-        String url = properties.getProperty("ENDPOINT_GET_BOOK_BY_ISBN");
-        if(url != null) return url;
-        else throw new RuntimeException("url not specified in the Configuration.properties file.");
-    }
 
 }

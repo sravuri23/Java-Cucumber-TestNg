@@ -28,7 +28,7 @@ Feature: Exercise 1 - To write Cucumber Tests using Gherkin
       | Coordinate 1 | Coordinate 2 | Coordinate 3 | Coordinate 4 |
       | 100,10       |   10,200     | 2,1          |  3,4         |
 
-  Scenario Outline: Verify if it shows error message when any of the coordinates are blank
+  Scenario Outline: Verify if the system shows error message when any of the coordinates are blank
     Given the user has access to the page
     When the user enter values to any three coordinate "<Coordinate 1>" "<Coordinate 2>" "<Coordinate 3>" "<Coordinate 4>" fields
     And leave any of the fields blank
@@ -48,7 +48,7 @@ Feature: Exercise 1 - To write Cucumber Tests using Gherkin
     And Cancel button below the fourth Coordinate field on the first edge of the field
     And Check button below the fourth Coordinate field on the second edge of the field
     And Clear button below the Check button
-    Then the buttons should be functional
+    Then all the cta's should be functional
 
 
 
