@@ -1,10 +1,7 @@
 package pageObjects;
 
-import dataProviders.ConfigFileReader;
 import io.cucumber.core.logging.Logger;
 import io.cucumber.core.logging.LoggerFactory;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,23 +14,16 @@ import java.time.Duration;
 //import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 
-public class BasePageObject {
+public class BasePageObject{
     private static final Logger LOG = (Logger) LoggerFactory.getLogger(BasePageObject.class);
     private WebDriver driver;
     private WebDriverWait wait;
 
-    public WebDriver getDriver() {
-        return driver;
-    }
 
     public BasePageObject(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver,Duration.ofSeconds(10));// Default timeout is set to 10 seconds
 
-    }
-
-    public  BasePageObject(){
-        BasePageObject basePage = new BasePageObject(driver);
     }
 
     public static void main(String[] args){
@@ -42,26 +32,13 @@ public class BasePageObject {
 
     }
 
-    public void getApplicationUrl()  {
-        ConfigFileReader configFileReader = new ConfigFileReader();
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.navigate().to(configFileReader.getApplicationUrl());
-
-
-    }
-
-
-    public WebElement waitForanElement(WebElement element)
-    {
-        WebDriverWait wait= new WebDriverWait(driver,Duration.ofSeconds(10));
-        WebElement Element=wait.until(ExpectedConditions.presenceOfElementLocated((By) element));
-        return Element;
+    public WebElement waitForanElement(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 }
 
-//
+
 //
 //    /**
 //     * Returns the current Url from page

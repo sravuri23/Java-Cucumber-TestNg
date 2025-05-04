@@ -1,17 +1,14 @@
 package stepDefinition;
 
+import Pages.SniperElitePage;
+import WebDriverUtils.DriverManager;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -19,120 +16,127 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class SniperEliteSteps {
 
 
-    public static class ConfigFileReader {
-        public static WebDriver driver;
-        dataProviders.ConfigFileReader configFileReader;
+    private SniperElitePage sniperElitePage;
+    private final DriverManager driverManager;
 
+    public SniperEliteSteps(SniperElitePage sniperElitePage, DriverManager driverManager) {
+        this.driverManager = driverManager;
+        this.sniperElitePage = sniperElitePage;
+    }
 
-        @Given("I navigate to Sniperelite Website")
-        public void i_navigate_to_Sniperelite_website() {
-            configFileReader = new dataProviders.ConfigFileReader();
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
-            driver.navigate().to(configFileReader.getApplicationUrl());
+    @Given("I navigate to Sniperelite Website")
+    public void i_navigate_to_Sniperelite_website() {
+        sniperElitePage.openTheWebsite();
+    }
 
-        }
-        @Then("the title of the page contains {string}")
-        public void the_title_of_the_page_contains(String Title) {
-//         driver.get(configFileReader.getApplicationUrl());
+    @Then("the title of the page contains {string}")
+    public void the_title_of_the_page_contains(String Title) {
+        String pageTitle = sniperElitePage.getCurrentPageTitle();
+        Title = "Sniper Elite: Resistance | Out Now";
+        System.out.println(pageTitle.contains("Page title is: " + Title));
+        assertThat(driverManager.getDriver().getTitle()).isEqualTo(Title);
+        sniperElitePage.acceptCookie();
+    }
 
-            // Get the title of the page
-            String pageTitle = driver.getTitle();
-           Title="Sniper Elite: Resistance | Out Now";
-            // Print the title
-            System.out.println(pageTitle.contains("Page title is: " + Title));
-            assertThat(driver.getTitle()).isEqualTo(Title);
-            // Close the browser
-            driver.quit();
+    @Then("the Sniper Elite logo is visible in the main navigation bar")
+    public void the_sniper_elite_logo_is_visible_in_the_main_navigation_bar() {
+        sniperElitePage.siteLogoIsVisible();
+    }
 
-        }
-
-        @And("I search for {string}")
-        public void i_search_for(String itemName) {
-            driver.findElement(By.cssSelector("#sli_search_1")).click();
-            driver.findElement(By.cssSelector("#sli_search_1")).sendKeys(itemName);
-            driver.findElement(By.cssSelector("input[class='SearchButton']")).click();
-
-        }
-
-        @When("I click on first product displayed on PLP page")
-        public void i_click_on_first_product_displayed_on_plp_page() {
-            driver.findElement(By.cssSelector("article.Item.Fashion:nth-child(1)")).click();
-        }
-
-        @And("the results returned displays the product {string}")
-        public void theResultsReturnedDisplaysTheProduct(String itemName) {
-            String itemText = driver.findElement(By.cssSelector("div.Title > h1:nth-child(1)")).getText();
-            assertThat(itemText.compareToIgnoreCase(itemName));
-
-        }
-
-        @Then("all the links in the pdp page returns OK response with no 404 error code")
-        public void allTheLinksInThePdpPageReturnsOKresponseWithno404errorcode() {
-            getAllTheLinks();
-            driver.close();
-            driver.quit();
-        }
-
-        public void getAllTheLinks() {
-            List<WebElement> links = driver.findElements(By.tagName("a"));
-            // This line will print the number of links and the count of links.
-            System.out.println("No of links are " + links.size());
-            //checking the links fetched.
-            for (int i = 0; i < links.size(); i++) {
-                WebElement E1 = links.get(i);
-                String url = E1.getAttribute("href");
-                System.out.println("All the links in the page " + url);
-                verifyLinks(url);
-            }
-
-        }
-
-        public static void verifyLinks(String linkUrl) {
-            try {
-                URL url = new URL(linkUrl);
-                //Now we will be creating url connection and getting the response code
-                HttpURLConnection httpURLConnect = (HttpURLConnection) url.openConnection();
-                httpURLConnect.setConnectTimeout(5000);
-                httpURLConnect.connect();
-                if (httpURLConnect.getResponseCode() >= 400) {
-                    System.out.println("HTTP STATUS - " + httpURLConnect.getResponseMessage() + "is a broken link");
-                }
-                //Fetching and Printing the response code obtained
-                else {
-                    System.out.println("HTTP STATUS - " + httpURLConnect.getResponseMessage());
-                }
-            } catch (Exception e) {
-            }
-
-        }
-
-
-        @And("I click on size guide link")
-        public void iClickOnSizeGuideLink() {
-            driver.findElement(By.cssSelector("span.SizeGuideString")).click();
-        }
-
-
-        @Then("a table with a list of rows displayed")
-        public void aTableWithAListOfRowsDisplayed() {
-            numberOfrowsInSizeGuide();
-            driver.close();
-            driver.quit();
-        }
-
-        public void numberOfrowsInSizeGuide() {
-            //No.of rows
-            List <WebElement> rows = driver.findElements(By.cssSelector("tbody >tr"));
-            int count = rows.size();
-            System.out.println("ROW COUNT : "+count);
-            for(WebElement e : rows) {
-               System.out.println(e.getText());
-            }
+    @Then("the mega-menu is visible with the items:")
+    public void the_mega_menu_is_visible_with_the_items(DataTable dataTable) {
+        // Iterate over the items in the DataTable and check each item in the mega-menu
+        for (List<String> row : dataTable.asLists(String.class)) {
+            String itemName = row.get(0);
+            sniperElitePage.verifyMenuItemsVisible(itemName);
         }
     }
+
+    @Then("a globe icon is displayed in the main navigation bar")
+    public void a_globe_icon_is_displayed_in_the_main_navigation_bar() {
+        sniperElitePage.isGlobeIconVisible();
+    }
+
+    @And("the navigation menu should be present")
+    public void the_navigation_menu_should_be_present() {
+        sniperElitePage.isMegaMenuVisible();
+        sniperElitePage.isAllTheMainNavigationLinksVisible();
+    }
+
+    @And("the main banner should be present")
+    public void the_main_banner_should_be_present() {
+        sniperElitePage.siteLogoIsVisible();
+    }
+
+    @Then("the footer component should be displayed")
+    public void the_footer_component_should_be_displayed() {
+        sniperElitePage.isFooterSectionVisible();
+    }
+    @Given("the hero banner heading {string} is visible")
+    public void the_hero_banner_heading_is_visible(String Text) {
+        sniperElitePage.acceptCookie();
+        sniperElitePage.isHeroBannerHeadingVisible(Text);
+    }
+    @And("the sub-heading text {string} is visible")
+    public void the_sub_heading_text_is_visible(String Subhead) {
+       sniperElitePage.isSubHeadingVisible(Subhead);
+    }
+    @And("the page finishes loading")
+    public void the_page_finishes_loading() {
+        sniperElitePage.acceptCookie();
+        sniperElitePage.siteLogoIsVisible();
+    }
+
+    @Then("the {string} CTA button is visible on the hero banner")
+    public void the_cta_button_is_visible_on_the_hero_banner(String Text) {
+      sniperElitePage.isBuyNowCtaVisible(Text);
+    }
+
+    @When("the user clicks the “BUY NOW” button")
+    public void the_user_clicks_the_buy_now_button() {
+       sniperElitePage.clickOnBuyNow();
+    }
+
+    @And("the platform tiles “PC”, “XBOX”, and “PLAYSTATION” are visible")
+    public void the_platform_tiles_pc_xbox_and_playstation_are_visible() {
+        sniperElitePage.verifyIsTilesVisible();
+    }
+
+    @And("the user clicks the “PC” tile")
+    public void the_user_clicks_the_pc_tile() {
+        sniperElitePage.clickPcTile();
+    }
+
+    @And("the PC tile window appears")
+    public void the_PC_tile_window_appears() {
+        sniperElitePage.isPCTilePopupWindowVisible();
+
+    }
+    @Then("a modal for PC purchase appears with “STANDARD EDITION” pre-selected")
+    public void a_modal_for_pc_purchase_appears_with_standard_edition_pre_selected() {
+        sniperElitePage.verifyStandEditionPreselected();
+
+    }
+
+    @When("the user clicks the “Rebellion Shop” option in the modal")
+    public void the_user_clicks_the_rebellion_shop_option_in_the_modal() {
+        sniperElitePage.clickOnRebllionShop();
+    }
+
+    @Then("the Rebellion Shop page opens in a new browser window")
+    public void the_rebellion_shop_page_opens_in_a_new_browser_window() {
+        sniperElitePage.verifyShopRebellionPage();
+    }
+
+    @After
+    public void tearDown() {
+        driverManager.quitDriver();
+    }
 }
+
+
+
+
 
 
 
