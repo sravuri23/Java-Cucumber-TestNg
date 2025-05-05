@@ -11,8 +11,6 @@ import io.cucumber.java.en.When;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 public class SniperEliteSteps {
 
 
@@ -31,11 +29,8 @@ public class SniperEliteSteps {
 
     @Then("the title of the page contains {string}")
     public void the_title_of_the_page_contains(String Title) {
-        String pageTitle = sniperElitePage.getCurrentPageTitle();
-        Title = "Sniper Elite: Resistance | Out Now";
-        System.out.println(pageTitle.contains("Page title is: " + Title));
-        assertThat(driverManager.getDriver().getTitle()).isEqualTo(Title);
         sniperElitePage.acceptCookie();
+        sniperElitePage.verifyHomePageTitle(Title);
     }
 
     @Then("the Sniper Elite logo is visible in the main navigation bar")
@@ -45,7 +40,6 @@ public class SniperEliteSteps {
 
     @Then("the mega-menu is visible with the items:")
     public void the_mega_menu_is_visible_with_the_items(DataTable dataTable) {
-        // Iterate over the items in the DataTable and check each item in the mega-menu
         for (List<String> row : dataTable.asLists(String.class)) {
             String itemName = row.get(0);
             sniperElitePage.verifyMenuItemsVisible(itemName);
@@ -126,7 +120,49 @@ public class SniperEliteSteps {
     @Then("the Rebellion Shop page opens in a new browser window")
     public void the_rebellion_shop_page_opens_in_a_new_browser_window() {
         sniperElitePage.verifyShopRebellionPage();
+        sniperElitePage.isShopCookiePopUpDisplayed();
+
+
     }
+
+    @Given("Sniper Elite Resistance Standard Edition is pre-selected")
+    public void sniper_elite_resistance_standard_edition_is_pre_selected() {
+        sniperElitePage.isStandardEditionPreselected();
+
+    }
+
+
+    @And("the free “Super Elite Camo T-Shirt” is pre-selected in size “XS”")
+    public void the_free_super_elite_camo_t_shirt_is_pre_selected_in_size_xs() {
+        sniperElitePage. isXSSizePreselected();
+    }
+
+    @Given("the quantity is set to 1 by default")
+    public void the_quantity_is_set_to_1_by_default() {
+      sniperElitePage.quantityCheck();
+
+
+    }
+
+    @When("the user clicks the “Add to Cart” button")
+    public void the_user_clicks_the_add_to_cart_button() {
+     sniperElitePage.clickOnAddToCart();
+     //sniperElitePage.verifyProductHeadingInCart();
+    }
+
+    @And("a cart drawer overlay appears showing the selected items")
+    public void a_cart_drawer_overlay_appears_showing_the_selected_items() {
+    sniperElitePage.isCartDrawerOverlayVisible();
+    sniperElitePage.verifyProductSubHeadInCart();
+    }
+
+
+    @Then("the user clicking on {string} CTA navigates to the cart page")
+    public void the_user_clicking_on_cta_navigates_to_the_cart_page(String AddToCart) {
+        sniperElitePage.clickOnGoToCart(AddToCart);
+
+    }
+
 
     @After
     public void tearDown() {

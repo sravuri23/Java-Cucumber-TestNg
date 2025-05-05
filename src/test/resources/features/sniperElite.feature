@@ -36,9 +36,12 @@ Feature: SniperElite Feature
     Then a modal for PC purchase appears with “STANDARD EDITION” pre-selected
     When the user clicks the “Rebellion Shop” option in the modal
     Then the Rebellion Shop page opens in a new browser window
-
-
-
+    And Sniper Elite Resistance Standard Edition is pre-selected
+    And the free “Super Elite Camo T-Shirt” is pre-selected in size “XS”
+    And the quantity is set to 1 by default
+    When the user clicks the “Add to Cart” button
+    And a cart drawer overlay appears showing the selected items
+    Then the user clicking on 'Go To Cart' CTA navigates to the cart page
 
 
 

@@ -23,5 +23,5 @@ import org.junit.runner.RunWith;
 public class RunnerTest {
 }
 
-// // tags = "@smoke and not @regression",  // Only run @smoke and exclude @regression
+// tags = "@smoke @regression",  // Only run @smoke and exclude @regression
 // --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter
