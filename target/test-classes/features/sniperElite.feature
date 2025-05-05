@@ -30,7 +30,7 @@ Feature: SniperElite Feature
   @regression
   Scenario: Verify user clicking on “Buy Now” CTA and Redirected to Rebellion Shop after selecting the PC tile
     When the user clicks the “BUY NOW” button
-    And the platform tiles “PC”, “XBOX”, and “PLAYSTATION” are visible
+    And the platform tiles visble “PC”, “XBOX”, and “PLAYSTATION” are visible
     And the user clicks the “PC” tile
     And the PC tile window appears
     Then a modal for PC purchase appears with “STANDARD EDITION” pre-selected

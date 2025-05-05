@@ -91,7 +91,7 @@ public class SniperEliteSteps {
        sniperElitePage.clickOnBuyNow();
     }
 
-    @And("the platform tiles “PC”, “XBOX”, and “PLAYSTATION” are visible")
+    @And("the platform tiles visble “PC”, “XBOX”, and “PLAYSTATION” are visible")
     public void the_platform_tiles_pc_xbox_and_playstation_are_visible() {
         sniperElitePage.verifyIsTilesVisible();
     }
@@ -147,7 +147,6 @@ public class SniperEliteSteps {
     @When("the user clicks the “Add to Cart” button")
     public void the_user_clicks_the_add_to_cart_button() {
      sniperElitePage.clickOnAddToCart();
-     //sniperElitePage.verifyProductHeadingInCart();
     }
 
     @And("a cart drawer overlay appears showing the selected items")

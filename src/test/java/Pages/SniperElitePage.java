@@ -302,25 +302,22 @@ public class SniperElitePage extends BasePageObject {
     }
 
     public void verifyIsTilesVisible() {
-        waitForanElement(pcTile()).isDisplayed();
-        waitForanElement(xBoxTile()).isDisplayed();
-        waitForanElement(playStationTile()).isDisplayed();
+        boolean actualPC = waitForanElement(pcTile()).isDisplayed();
+        boolean actualXBOX = waitForanElement(xBoxTile()).isDisplayed();
+        boolean actualPlaystation = waitForanElement(playStationTile()).isDisplayed();
     }
 
+
     public void verifyShopRebellionPage() {
-        // Store the current window handle (main page)
         String mainWindow = driver.getWindowHandle();
-        // Wait until a new window opens
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(d -> d.getWindowHandles().size() > 1);
-        // Switch to the new window
         for (String windowHandle : driver.getWindowHandles()) {
             if (!windowHandle.equals(mainWindow)) {
                 driver.switchTo().window(windowHandle);
                 break;
             }
         }
-        // Verify the URL of the new page
         String currentUrl = driver.getCurrentUrl();
         Assert.assertTrue(currentUrl.contains("shop.rebellion.com"),
                 "Expected shop URL not loaded. Actual URL: " + currentUrl);
